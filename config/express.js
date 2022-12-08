@@ -23,7 +23,7 @@ module.exports = (app)=>{
             console.log('>>>', req.method, req.url);
 
             if(req.user){
-                console.log('Known user', req.user.username);
+                console.log('Known user', req.user.firstName);
             }
     
             next();

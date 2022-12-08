@@ -8,7 +8,7 @@ router.get('/register', isGuest(), (req, res) => {
 })
 
 router.post('/register',
-    body('email', 'Email is required!').isEmail().withMessage('Invalid email!').isLength({ min: 10 }).withMessage('Email must be at least 10 characters long!'),
+    body('email', 'Email is required!').isEmail().withMessage('Please, enter a valid email!'),
     body('firstName', 'First name is required!').isLength({ min: 1 }).withMessage('First name must be at least 1 characters long!'),
     body('lastName', 'Last name is required!').isLength({ min: 1 }).withMessage('Last name must be at least 1 characters long!'),
     body('password', 'Password is required!').isLength({ min: 5 }).withMessage('Password must be at least 5 characters long!'),
@@ -71,8 +71,8 @@ router.post('/login', isGuest(), async (req, res) => {
             errors,
             userData: {
                 email: req.body.email,
-                firstName: req.body.firstName,
-                lastName: req.body.lastName
+                // firstName: req.body.firstName, //qui nient'altro che dannite koito slujat za logvane, bez password
+                // lastName: req.body.lastName
 
             }
         }

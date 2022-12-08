@@ -38,7 +38,7 @@ module.exports =()=> (req, res, next)=>{
 
 async function register(email, firstName, lastName, password){
     
-    const existingEmail = await userService.getUserByUsername(email);
+    const existingEmail = await userService.getUserByEmail(email);
 
   
     if(existingEmail){
