@@ -15,12 +15,12 @@
                                 <input type="text" name="title" value="{{auction.title}}"></label>
                             <label>
                                 <span>Category</span>
-                                <select name="category" >
-                                    <option value="estate">Real Estate</option>
-                                    <option value="vehicles">Vehicles</option>
-                                    <option value="furniture">Furniture</option>
-                                    <option value="electronics">Electronics</option>
-                                    <option value="other">Other</option>
+                                <select name="category">
+                                    <option value="estate" {{#if select-estate}}selected{{/if}}>Real Estate</option>
+                                    <option value="vehicles" {{#if select-vehicles}}selected{{/if}}>Vehicles</option>
+                                    <option value="furniture" {{#if select-furniture}}selected{{/if}}>Furniture</option>
+                                    <option value="electronics"  {{#if select-electronics}}selected{{/if}}>Electronics</option>
+                                    <option value="other" {{#if select-other}}selected{{/if}}>Other</option>
                                 </select>
                             </label>
                             <label>

@@ -6,7 +6,7 @@ const schema = new Schema({
     category: { type: String, required: [true, 'Category is required!'], enum: ['vehicles', 'estate', 'electronics', 'furniture', 'other'] },
     imageUrl: { type: String, required: true },
     startingPrice: { type: Number, required: [true, 'Price is required!'], min: [0, 'Price cannot be a negative number!'] },
-    author: { type: Schema.Types.ObjectId, ref: 'User' },
+   owner: { type: Schema.Types.ObjectId, ref: 'User' },
     bidder: [{ type: Schema.Types.ObjectId, ref: 'User' , default: []}],
 
 })
