@@ -1,0 +1,51 @@
+
+
+            <!-- Create Page -->
+            <section id="create-section" class="">
+
+                <h1 class="item">New Auction</h1>
+
+                <div class="item padded align-center">
+
+                    <form class="layout left large" action="/auctions/create" method="POST">
+
+                        <div class="col aligned">
+                            <label>
+                                <span>Title</span>
+                                <input type="text" name="title" value="{{auctionData.title}}"></label>
+                            <label>
+                                <span>Category</span>
+                                <select name="category" value="{{auctionData.category}}">
+                                    <option value="estate" {{#if select-estate}}selected{{/if}}>Real Estate</option>
+                                    <option value="vehicles"  {{#if select-vehicles}}selected{{/if}}>Vehicles</option>
+                                    <option value="furniture"  {{#if select-furniture}}selected{{/if}}>Furniture</option>
+                                    <option value="electronics"  {{#if select-electronics}}selected{{/if}}>Electronics</option>
+                                    <option value="other"  {{#if select-other}}selected{{/if}}>Other</option>
+                                </select>
+                            </label>
+                            <label>
+                                <span>Image URL</span>
+                                <input type="text" name="imageUrl" value="{{auctionData.imageUrl}}"></label>
+                            <label>
+                                <span>Starting price</span>
+                                <input type="number" name="startingPrice" value="{{auctionData.startingPrice}}"></label>
+                        </div>
+
+                        <div class="content pad-med align-center vertical">
+                            <label>
+                                <span>Description</span>
+                                <textarea name="description">{{auctionData.description}}</textarea>
+                            </label>
+
+                            <div class="align-center">
+                                <input class="action" type="submit" value="Publish Item">
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </section>
+
+     
