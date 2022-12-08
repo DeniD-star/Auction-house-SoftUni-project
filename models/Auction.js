@@ -8,6 +8,7 @@ const schema = new Schema({
     startingPrice: { type: Number, required: [true, 'Price is required!'], min: [0, 'Price cannot be a negative number!'] },
    owner: { type: Schema.Types.ObjectId, ref: 'User' },
     bidder: [{ type: Schema.Types.ObjectId, ref: 'User' , default: []}],
+  currentUserAmount: {type: Number, min: [0, 'You cannot bid a negative number!']}
 
 })
 

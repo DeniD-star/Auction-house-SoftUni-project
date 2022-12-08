@@ -88,6 +88,7 @@ return jwt.sign({
     email: userData.email,
     firstName: userData.firstName,
     lastName: userData.lastName,
+   userAmount: userData.userAmount
   
 }, TOKEN_SECRET)
 }

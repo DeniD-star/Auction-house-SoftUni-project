@@ -1,4 +1,5 @@
 const { isUser } = require('../middlewares/guards');
+const userService = require('../services/userService');
 
 const router = require('express').Router();
 
@@ -19,7 +20,7 @@ router.post('/create', isUser(), async(req, res) => {
         }
 
         await req.storage.createAuction(auctionData);
-        res.redirect('/auctions/browse')
+        res.redirect('/auctions/catalog')
     } catch (err) {
         let errors;
         if (err.errors) {
@@ -58,9 +59,13 @@ router.get('/details/:id', async(req, res)=>{
     try {
         
         const auction = await req.storage.getAuctionById(req.params.id);
+        const user = await userService.getUserByEmail(req.user.email)
         auction.hasUser = Boolean(req.user)
         auction.isOwner = req.user && req.user._id == auction.owner;
-        auction.isBidder = req.user && auction.bidder.find(x => x == req.user._id)
+        auction.isBidder = req.user && auction.bidder.find(x => x == req.user._id);
+        auction.highestBid = req.user && user.userAmount === auction.currentUserAmount;
+        
+        
 
         if(auction.isOwner){
             res.render('details-owner', {auction})
@@ -139,6 +144,25 @@ router.get('/delete/:id', isUser(), async(req, res)=>{
     } catch (err) {
         console.log(err.message);
         res.redirect('/auctions/details' + req.params.id)
+    }
+})
+
+router.post('/bid/:id', isUser(), async(req, res)=>{
+    try {
+        const auction = await req.storage.bidAuction(req.params.id, req.user._id);
+        const user = await userService.getUserByEmail(req.user.email)
+
+        const currentUserAmount = Number(auction.currentUserAmount)
+        if(currentUserAmount >= Number(user.userAmount)){
+            throw new Error('I am sorry! Your bid is less than already offered!')
+        }else{
+            auction.currentUserAmount = Number(user.userAmount);
+        }
+
+        res.redirect('/auctions/details/' + req.params.id)
+    } catch (err) {
+        console.log(err.message);
+        res.redirect('/auctions/details/' + req.params.id)
     }
 })
 module.exports = router;

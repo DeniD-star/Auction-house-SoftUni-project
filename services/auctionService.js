@@ -1,4 +1,5 @@
 const Auction = require('../models/Auction');
+const User = require('../models/User');
 
 
 async function createAuction(auctionData) {
@@ -37,10 +38,31 @@ async function deleteAuction(id){
    return Auction.findByIdAndDelete(id)
 }
 
+async function bidAuction(auctionId, userId){
+    const user = await User.findById(userId);
+    const auction = await Auction.findById(auctionId);
+
+    if (auction.owner == user._id) {
+        throw new Error('Cannot bid your own auction!');
+    }
+ 
+    auction.bidder.push(user);
+    const currentUserAmount = Number(auction.currentUserAmount);
+    
+    if(currentUserAmount >= Number(user.userAmount) ){
+        throw new Error('I am sorry! Your bid is less than already offered!')
+    }else{
+        auction.currentUserAmount = Number(user.userAmount);
+    }
+
+    return Promise.all([user.save(), auction.save()])
+}
+
 module.exports = {
     createAuction,
     getAllAuctions,
     getAuctionById,
     editAuction,
-    deleteAuction
+    deleteAuction,
+    bidAuction
 }

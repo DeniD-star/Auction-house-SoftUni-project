@@ -3,6 +3,7 @@ const {DATABASE_CONNECTION_STRING} = require('../config/index')
 
 module.exports = (app)=>{
     return new Promise((resolve, reject)=>{
+        mongoose.set('strictQuery', true)
         mongoose.connect(DATABASE_CONNECTION_STRING, {
             useNewUrlParser: true,
             useUnifiedTopology: true
