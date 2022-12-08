@@ -8,6 +8,13 @@ async function createAuction(auctionData) {
     return auction;
 }
 
+async function getAllAuctions(){
+    const auctions = await Auction.find({}).lean();
+
+    return auctions;
+}
+
 module.exports = {
-    createAuction
+    createAuction,
+    getAllAuctions
 }

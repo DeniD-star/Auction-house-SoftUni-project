@@ -42,4 +42,15 @@ router.post('/create', isUser(), async(req, res) => {
         res.render('create', ctx)
     }
 })
+
+
+router.get('/catalog', async(req, res)=>{
+       try {
+        const auctions = await req.storage.getAllAuctions()
+
+        res.render('browse', {auctions})
+       } catch (err) {
+           console.log(err.message);
+       }
+})
 module.exports = router;

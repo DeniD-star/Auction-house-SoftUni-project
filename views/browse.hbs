@@ -3,39 +3,16 @@
             <section id="catalog-section" class="spaced">
 
                 <h1 class="item">Auctions</h1>
-
+                    {{#if auctions}}
                 <!-- List of available auctions -->
                 <ul class="catalog cards">
-                    <li class="item">
-                        <header class="pad-med">
-                            <h2>Fishing Boat</h2>
-                        </header>
-
-                        <div class="align-center">
-                            <img class="img-thumb" src="/static/assets/boat.jpg">
-                        </div>
-
-                        <footer class="align-center pad-med">
-                            <p>Current price: <strong>$5000</strong></p>
-                            <a class="action" href="#">See details</a>
-                        </footer>
-                    </li>
-                    <li class="item">
-                        <header class="pad-med">
-                            <h2>Wardrobe</h2>
-                        </header>
-
-                        <div class="align-center">
-                            <img class="img-thumb" src="/static/assets/wardrobe.jpg">
-                        </div>
-
-                        <footer class="align-center pad-med">
-                            <p>Current price: <strong>$150</strong></p>
-                            <a class="action" href="#">See details</a>
-                        </footer>
-                    </li>
-                 
+                    {{#each auctions}}
+                        {{> auction}}
+                  
+                    {{/each}}
                 </ul>
+              
+                {{else}}
 
                 <!-- If there are no auctions to display -->
                 <div class="item pad-large align-center">
@@ -44,7 +21,7 @@
                         <a class="action" href="/auctions/create">Publish Auction</a>
                     </div>
                 </div>
-
+            {{/if}}
             </section>
 
     
