@@ -46,14 +46,13 @@ async function bidAuction(auctionId, userId){
         throw new Error('Cannot bid your own auction!');
     }
  
+
     auction.bidder.push(user);
-    const currentUserAmount = Number(auction.currentUserAmount);
-    
-    if(currentUserAmount >= Number(user.userAmount) ){
-        throw new Error('I am sorry! Your bid is less than already offered!')
-    }else{
-        auction.currentUserAmount = Number(user.userAmount);
-    }
+    // if(user.amount < auction.currentAmount){
+    //     throw new Error('Error!')
+    // }else{
+    //     auction.currentAmount = amount;
+    // }
 
     return Promise.all([user.save(), auction.save()])
 }

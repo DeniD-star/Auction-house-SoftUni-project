@@ -16,8 +16,10 @@ router.post('/create', isUser(), async(req, res) => {
             startingPrice: Number(req.body.startingPrice),
             owner: req.user._id,
             bidder: []
-
+           
         }
+
+       
 
         await req.storage.createAuction(auctionData);
         res.redirect('/auctions/catalog')
@@ -37,8 +39,10 @@ router.post('/create', isUser(), async(req, res) => {
                 category: req.body.category,
                 imageUrl: req.body.imageUrl,
                 startingPrice: Number(req.body.startingPrice),
+           
             }
-        }
+            }
+       
 
         res.render('create', ctx)
     }
@@ -60,10 +64,12 @@ router.get('/details/:id', async(req, res)=>{
         
         const auction = await req.storage.getAuctionById(req.params.id);
         const user = await userService.getUserByEmail(req.user.email)
+        const currentAmount = Number(user.userAmount)
         auction.hasUser = Boolean(req.user)
         auction.isOwner = req.user && req.user._id == auction.owner;
         auction.isBidder = req.user && auction.bidder.find(x => x == req.user._id);
-        auction.highestBid = req.user && user.userAmount === auction.currentUserAmount;
+       
+        auction.isHighestBidder = auction.currentUserAmount;
         
         
 
@@ -76,7 +82,7 @@ router.get('/details/:id', async(req, res)=>{
        
     } catch (err) {
         console.log(err.message);
-        res.redirect('/404');
+        res.redirect('/auctions/404');
     }
 })
 
@@ -119,11 +125,13 @@ router.post('/edit/:id', isUser(), async(req, res)=>{
             errors,
             auction: {
                 _id: req.params.id,//tuk da ne zabravq pri edit post da dobavq id to na hotela
+                //tuk da ne zabravq pri edit post da dobavq id to na hotela
                 title: req.body.title,
                 description: req.body.description,
                 category: req.body.category,
                 imageUrl: req.body.imageUrl,
                 startingPrice: Number(req.body.startingPrice),
+                
             }
         }
 
@@ -143,22 +151,24 @@ router.get('/delete/:id', isUser(), async(req, res)=>{
         res.redirect('/auctions/catalog')
     } catch (err) {
         console.log(err.message);
-        res.redirect('/auctions/details' + req.params.id)
+        res.redirect('/auctions/details/' + req.params.id)
     }
 })
 
 router.post('/bid/:id', isUser(), async(req, res)=>{
     try {
         const auction = await req.storage.bidAuction(req.params.id, req.user._id);
-        const user = await userService.getUserByEmail(req.user.email)
-
-        const currentUserAmount = Number(auction.currentUserAmount)
-        if(currentUserAmount >= Number(user.userAmount)){
-            throw new Error('I am sorry! Your bid is less than already offered!')
-        }else{
-            auction.currentUserAmount = Number(user.userAmount);
-        }
-
+        const user = await userService.getUserByEmail(req.user.email);
+       
+    //     const amount = {
+    //         amount: Number(req.user.amount)
+    //     }
+    //    if(amount.amount < auction.currentAmount){
+    //        throw new Error('Error!')
+    //    }else{
+    //        auction.currentAmount = amount;
+    
+    //    }
         res.redirect('/auctions/details/' + req.params.id)
     } catch (err) {
         console.log(err.message);
